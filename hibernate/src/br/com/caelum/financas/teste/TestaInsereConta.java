@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import br.com.caelum.financas.infra.JPAUtil;
 import br.com.caelum.financas.modelo.Conta;
 
 public class TestaInsereConta {
@@ -13,14 +14,13 @@ public class TestaInsereConta {
 	public static void main(String[] args) {
 		long inicio = System.currentTimeMillis();
 		
-		EntityManagerFactory factory = Persistence.createEntityManagerFactory("controlefinancas");
-		EntityManager entityManager = factory.createEntityManager();
+		EntityManager entityManager = new JPAUtil().getEntityManager();
 		
 		Conta conta = new Conta();
-		conta.setTitular("Raphael Rios Zeymer");
-		conta.setBanco("Itaú");
-		conta.setNumero("709388-9");
-		conta.setAgencia("8347");
+		conta.setTitular("Breno Rios Zeymer");
+		conta.setBanco("Santander");
+		conta.setNumero("123456-9");
+		conta.setAgencia("9876");
 		
 		entityManager.getTransaction().begin();
 		entityManager.persist(conta);
