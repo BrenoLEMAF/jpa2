@@ -11,7 +11,7 @@ public class TestaBuscaContaDaMovimentacao {
 		EntityManager em = new JPAUtil().getEntityManager();
 		em.getTransaction().begin();
 		
-		Movimentacao movimentacao = em.getReference(Movimentacao.class, 1);
+		Movimentacao movimentacao = em.getReference(Movimentacao.class, 4);
 		
 		System.out.println(movimentacao.getConta().getTitular());
 		
