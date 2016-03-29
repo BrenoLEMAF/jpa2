@@ -10,6 +10,7 @@ import javax.persistence.TypedQuery;
 import br.com.caelum.financas.modelo.Conta;
 import br.com.caelum.financas.modelo.Movimentacao;
 import br.com.caelum.financas.modelo.TipoMovimentacao;
+import br.com.caelum.financas.modelo.ValorPorMes;
 
 public class MovimentacaoDAO {
 	private final DAO<Movimentacao> dao;
@@ -54,6 +55,18 @@ public class MovimentacaoDAO {
 					+ "where m.conta.titular like :titular";
 		TypedQuery<Movimentacao> query = this.em.createQuery(jpql, Movimentacao.class);
 		query.setParameter("titular", "%"+titular+"%");
+		return query.getResultList();
+	}
+	
+	public List<ValorPorMes> listaMesesComMovimentacoes (Conta conta, TipoMovimentacao tipo){
+		String jpql = "select new br.com.caelum.financas.modelo.ValorPorMes(month(m.data), sum(m.valor)) "
+					+ "from Movimentacao m " 
+					+ "group by month(m.data), m.conta, m.tipoMovimentacao "
+					+ "having m.conta = :conta and m.tipoMovimentacao = :tipo "
+					+ "order by sum(m.valor) desc";
+		Query query = this.em.createQuery(jpql);
+		query.setParameter("conta", conta);
+		query.setParameter("tipo", tipo);
 		return query.getResultList();
 	}
 	

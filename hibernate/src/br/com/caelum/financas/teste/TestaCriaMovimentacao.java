@@ -19,20 +19,36 @@ public class TestaCriaMovimentacao {
 		MovimentacaoDAO mDAO = new MovimentacaoDAO(em); 
 		ContaDAO cDAO = new ContaDAO(em);
 		
-		Movimentacao movimentacao = new Movimentacao();
+		
 		
 		em.getTransaction().begin();
-		Conta conta = new Conta("Herculano Freitas", "9832", "658742-8", "Bradesco");
+		Conta conta = cDAO.busca(2);
+		Calendar c = Calendar.getInstance();
 		
 		cDAO.adiciona(conta);
-				
-		movimentacao.setDescricao("Conta de agua");
-		movimentacao.setData(Calendar.getInstance());
-		movimentacao.setValor(new BigDecimal("100.00"));
-		movimentacao.setTipoMovimentacao(TipoMovimentacao.SAIDA);
-		movimentacao.setConta(conta);
-				
-		mDAO.adiciona(movimentacao);
+		for (int i = 9; i < 12; i++) {
+			c.set(Calendar.MONTH, i);
+			Movimentacao movimentacao = new Movimentacao();
+			Number valor = (i+1)*10;
+			movimentacao.setDescricao("Conta de agua " + i);
+			movimentacao.setData(c);
+			movimentacao.setValor(new BigDecimal(valor.toString()));
+			movimentacao.setTipoMovimentacao(TipoMovimentacao.SAIDA);
+			movimentacao.setConta(conta);
+			mDAO.adiciona(movimentacao);
+		}
+		for (int i = 3; i < 12; i++) {
+			c.set(Calendar.MONTH, i);
+			Movimentacao movimentacao = new Movimentacao();
+			Number valor = (i+1)*10;
+			movimentacao.setDescricao("Conta de agua " + i);
+			movimentacao.setData(c);
+			movimentacao.setValor(new BigDecimal(valor.toString()));
+			movimentacao.setTipoMovimentacao(TipoMovimentacao.ENTRADA);
+			movimentacao.setConta(conta);
+			mDAO.adiciona(movimentacao);
+		}
+		
 		
 		em.getTransaction().commit();
 		em.close();
