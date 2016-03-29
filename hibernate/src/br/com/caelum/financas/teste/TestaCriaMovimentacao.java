@@ -22,18 +22,17 @@ public class TestaCriaMovimentacao {
 		Movimentacao movimentacao = new Movimentacao();
 		
 		em.getTransaction().begin();
-		Conta conta = cDAO.busca(2);
-		em.getTransaction().commit();
+		Conta conta = new Conta("Herculano Freitas", "9832", "658742-8", "Bradesco");
 		
-		movimentacao.setDescricao("Saque");
+		cDAO.adiciona(conta);
+				
+		movimentacao.setDescricao("Conta de agua");
 		movimentacao.setData(Calendar.getInstance());
 		movimentacao.setValor(new BigDecimal("100.00"));
 		movimentacao.setTipoMovimentacao(TipoMovimentacao.SAIDA);
 		movimentacao.setConta(conta);
-		
-		em.getTransaction().begin();
-		
-		mDAO.adiciona(movimentacao);		
+				
+		mDAO.adiciona(movimentacao);
 		
 		em.getTransaction().commit();
 		em.close();
