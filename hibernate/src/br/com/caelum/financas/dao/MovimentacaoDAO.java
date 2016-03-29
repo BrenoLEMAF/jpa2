@@ -47,7 +47,14 @@ public class MovimentacaoDAO {
 		query.setParameter("conta", conta);
 		query.setParameter("tipo", tipo);
 		return query.getSingleResult();
-		
+	}
+	
+	public List<Movimentacao> buscaTodasMovimentacoesDaConta(String titular) {	
+		String jpql = "select m from Movimentacao m "
+					+ "where m.conta.titular like :titular";
+		TypedQuery<Movimentacao> query = this.em.createQuery(jpql, Movimentacao.class);
+		query.setParameter("titular", "%"+titular+"%");
+		return query.getResultList();
 	}
 	
 	public void adiciona(Movimentacao t){
