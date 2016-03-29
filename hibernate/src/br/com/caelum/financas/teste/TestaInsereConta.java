@@ -1,11 +1,8 @@
 package br.com.caelum.financas.teste;
 
-import java.awt.SystemColor;
-
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
+import br.com.caelum.financas.dao.ContaDAO;
 import br.com.caelum.financas.infra.JPAUtil;
 import br.com.caelum.financas.modelo.Conta;
 
@@ -14,17 +11,21 @@ public class TestaInsereConta {
 	public static void main(String[] args) {
 		long inicio = System.currentTimeMillis();
 		
-		EntityManager entityManager = new JPAUtil().getEntityManager();
+		EntityManager em = new JPAUtil().getEntityManager();
+		ContaDAO cDAO = new ContaDAO(em); 
 		
-		Conta conta = new Conta();
-		conta.setTitular("Breno Rios Zeymer");
-		conta.setBanco("Santander");
-		conta.setNumero("123456-9");
-		conta.setAgencia("9876");
+		Conta conta = new Conta("Maria Tereza Rios", "3245", "654987-5", "Banco do Brasil");
+		Conta conta2 = new Conta("Raphael Rios Zeymer", "5487", "753698-9", "Itaú");
+		Conta conta3 = new Conta("Breno Rios Zeymer", "8754", "588752-5", "Santander");
+		Conta conta4 = new Conta("Fulano de Tal", "9631", "891264-9", "Itaú");
 		
-		entityManager.getTransaction().begin();
-		entityManager.persist(conta);
-		entityManager.getTransaction().commit();
+		em.getTransaction().begin();
+		cDAO.adiciona(conta);
+		cDAO.adiciona(conta2);
+		cDAO.adiciona(conta3);
+		cDAO.adiciona(conta4);
+		em.getTransaction().commit();
+		em.close();
 		
 		long fim = System.currentTimeMillis();
 		

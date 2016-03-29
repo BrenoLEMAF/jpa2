@@ -17,6 +17,18 @@ public class Conta {
 	@GeneratedValue
 	private Integer id;
 
+	
+	public Conta(){
+		
+	}
+	
+	public Conta(String titular, String agencia, String numero, String banco) {
+		this.titular = titular;
+		this.agencia = agencia;
+		this.numero = numero;
+		this.banco = banco;
+	}
+
 
 	public String getTitular() {
 		return titular;
