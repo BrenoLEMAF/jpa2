@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import br.com.caelum.financas.dao.ContaDAO;
 import br.com.caelum.financas.infra.JPAUtil;
 import br.com.caelum.financas.modelo.Conta;
+import br.com.caelum.financas.modelo.Movimentacao;
 
 public class TestaListagemConta {
 	public static void main(String[] args){
@@ -16,7 +17,9 @@ public class TestaListagemConta {
 		
 		List<Conta> lista = cDAO.lista();
 		for (Conta conta : lista) {
-			System.out.println(conta.getNumero());
+			for (Movimentacao mov : conta.getMovimentacoes()) {
+				System.out.println(mov.getDescricao());	
+			}
 		}
 		
 		em.getTransaction().commit();

@@ -1,11 +1,27 @@
 package br.com.caelum.financas.modelo;
 
+import java.util.List;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
+//@Table(uniqueConstraints=@UniqueConstraint(columnNames={"gerente_id", "teste"}))
 public class Conta {
+	
+	@OneToMany(mappedBy="conta")
+	private List<Movimentacao> movimentacoes;
+
+	@OneToOne
+	@JoinColumn(unique=true)
+	private Gerente gerente;
 
 	private String titular;
 	private String agencia;
@@ -16,7 +32,9 @@ public class Conta {
 	@Id
 	@GeneratedValue
 	private Integer id;
-
+	
+	@Column(unique=true)
+	public int teste;
 	
 	public Conta(){
 		
@@ -28,7 +46,23 @@ public class Conta {
 		this.numero = numero;
 		this.banco = banco;
 	}
+	
+	public List<Movimentacao> getMovimentacoes() {
+		return movimentacoes;
+	}
 
+	
+	public Gerente getGerente() {
+		return gerente;
+	}
+
+	public void setGerente(Gerente gerente) {
+		this.gerente = gerente;
+	}
+
+	public void setMovimentacoes(List<Movimentacao> movimentacoes) {
+		this.movimentacoes = movimentacoes;
+	}
 
 	public String getTitular() {
 		return titular;
